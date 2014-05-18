@@ -97,3 +97,14 @@ histStepAll$day[((histStepAll$day == "Saturday") | (histStepAll$day == "Sunday")
 histStepAll$day[(histStepAll$day != "Weekend")] <- "Weekday"
 histStepAll$day <- as.factor(histStepAll$day)
 ```
+
+## Panel Plot containing time series for weekday and weekend analysis
+
+```{r fig.width=7, fig.height=6, echo = TRUE}
+library(lattice)
+library(grid)
+gp <- data.frame(aggregate(histStepAll$steps~histStepAll$interval+histStepAll$day,FUN = mean))
+colnames(gp) <- c("interval","day","steps")
+xyplot(gp$steps~gp$interval|gp$day,data = gp,type = ("l"),layout = c(1,2),ylab="Number of steps",xlab="Interval")
+```
+
